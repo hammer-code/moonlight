@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"errors"
 	"fmt"
 
 	"github.com/hammer-code/moonlight/domain/certificates"
@@ -94,18 +93,9 @@ func (repo repository) GetByExternalID(ctx context.Context, externalID string) (
 func (repo repository) StoreCert(ctx context.Context, cert certificates.Certificate) error {
 	// insertColumn = "external_id,name,image_link,share_link,event"
 	sql := fmt.Sprintf("INSERT INTO %s(%s) VALUES($1, $2, $3, $4, $5)", tableName, insertColumn)
-	result, err := repo.db.Exec(sql, cert.ExternalID, cert.Name, cert.ImageLink, cert.ShareLink, cert.Event)
+	_, err := repo.db.Exec(sql, cert.ExternalID, cert.Name, cert.ImageLink, cert.ShareLink, cert.Event)
 	if err != nil {
 		return err
-	}
-
-	rowsAffected, err := result.RowsAffected()
-	if err != nil {
-		return err
-	}
-
-	if rowsAffected != 0 {
-		return errors.New("no a row affected")
 	}
 
 	return nil

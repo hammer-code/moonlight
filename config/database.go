@@ -11,7 +11,7 @@ type Database struct {
 	Conn string
 }
 
-func NewDatabase(d Database) error {
+func NewDatabase(d Database) (*sql.DB, error) {
 	// Connect to database
 	db, err := sql.Open("postgres", d.Conn)
 	if err != nil {
@@ -22,5 +22,5 @@ func NewDatabase(d Database) error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return err
+	return db, err
 }
