@@ -28,7 +28,7 @@ func NewRepository(db *sql.DB) certificates.CertificateRepository {
 
 const (
 	tableName    = "certificates"
-	publicColumn = "external_id,number,full_name,event,date_at"
+	publicColumn = "external_id,name,image_link,share_link,event,created_at"
 	// column       = "id,external_id,number,full_name,event,date_at"
 )
 
@@ -46,10 +46,11 @@ func (repo repository) List(ctx context.Context) ([]certificates.Certificate, er
 
 		err = rows.Scan(
 			&cert.ExternalID,
-			&cert.Number,
-			&cert.FullName,
+			&cert.Name,
+			&cert.ImageLink,
+			&cert.ShareLink,
 			&cert.Event,
-			&cert.DateAt,
+			&cert.CreatedAt,
 		)
 
 		if err != nil {
@@ -74,10 +75,11 @@ func (repo repository) GetByExternalID(ctx context.Context, externalID string) (
 
 		err = rows.Scan(
 			&cert.ExternalID,
-			&cert.Number,
-			&cert.FullName,
+			&cert.Name,
+			&cert.ImageLink,
+			&cert.ShareLink,
 			&cert.Event,
-			&cert.DateAt,
+			&cert.CreatedAt,
 		)
 
 		if err != nil {
