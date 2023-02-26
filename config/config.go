@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/spf13/viper"
@@ -30,14 +31,14 @@ func InitConfig() (*Config, error) {
 	api.validateAPI()
 
 	databasePostgres := Database{
-		Host:     viper.GetString("api.database.host"),
-		Port:     viper.GetInt("api.database.port"),
-		Username: viper.GetString("api.database.username"),
-		Password: viper.GetString("api.database.password"),
+		Conn: viper.GetString("database.postgres.conn"),
 	}
 
 	// check every var of database postgres
-	databasePostgres.validateDatabasePostgres()
+	err = databasePostgres.validateDatabasePostgres()
+	if err != nil {
+		panic(fmt.Errorf("fatal error config file: %w", err))
+	}
 
 	return &Config{
 		API:        api,
@@ -55,21 +56,10 @@ func (a *API) validateAPI() {
 	}
 }
 
-func (a *Database) validateDatabasePostgres() {
-	if a.Host == "" {
-		a.Host = "localhost"
+func (d *Database) validateDatabasePostgres() error {
+	if d.Conn == "" {
+		return errors.New("database connection is nil")
 	}
 
-	if a.Port == 0 {
-		a.Port = 8000
-	}
-
-	if a.Username == "" {
-		a.Username = "postgres"
-	}
-
-	if a.Password == "" {
-		a.Password = ""
-	}
-
+	return nil
 }

@@ -18,18 +18,23 @@ func init() {
 }
 func main() {
 	ctx := context.Background()
-	config, err := config.InitConfig()
+	cfg, err := config.InitConfig()
 	if err != nil {
 		logging.Error(ctx, err, "failed to init config")
 	}
 
 	logging.Info(ctx, "success load config", logging.Fields{
-		"api":               config.API,
-		"database_postgres": config.DBPostgres,
+		"api":               cfg.API,
+		"database_postgres": cfg.DBPostgres,
 	})
 
+	err = config.NewDatabase(cfg.DBPostgres)
+	if err != nil {
+		logging.Error(ctx, err, "failed to init config")
+	}
+
 	server := &http.Server{
-		Addr:    fmt.Sprintf("%s:%s", config.API.Host, strconv.Itoa(config.API.Port)),
+		Addr:    fmt.Sprintf("%s:%s", cfg.API.Host, strconv.Itoa(cfg.API.Port)),
 		Handler: nil,
 	}
 	cls := make(chan struct{})
@@ -37,8 +42,8 @@ func main() {
 	go grafulShutdonw(ctx, server, cls)
 
 	logging.Info(ctx, "server running", logging.Fields{
-		"host": config.API.Host,
-		"port": config.API.Port,
+		"host": cfg.API.Host,
+		"port": cfg.API.Port,
 	})
 	server.ListenAndServe()
 	<-cls
