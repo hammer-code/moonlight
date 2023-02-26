@@ -12,3 +12,19 @@ type Certificate struct {
 	CreatedAt  time.Time `json:"created_at"`
 	UpdatedAt  time.Time `json:"updated_at"`
 }
+
+type CertificateDTO struct {
+	ID        string `json:"_id"`
+	Name      string `json:"name"`
+	ImageLink string `json:"image_link"`
+	ShareLink string `json:"share_link"`
+}
+
+func ToDTO(cer Certificate) *CertificateDTO {
+	return &CertificateDTO{
+		ID:        cer.ExternalID,
+		Name:      cer.Name,
+		ImageLink: cer.ImageLink,
+		ShareLink: cer.ShareLink,
+	}
+}
