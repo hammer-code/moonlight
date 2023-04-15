@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"strconv"
 	"syscall"
+	"time"
 
 	"github.com/hammer-code/moonlight/app/certificates/controller"
 	"github.com/hammer-code/moonlight/app/certificates/repository"
@@ -52,6 +53,7 @@ func main() {
 
 	go func() {
 		for {
+			time.Sleep(2 * time.Second)
 			resp, err := http.Get("https://hammercode.org")
 			if err != nil {
 				logging.Error(ctx, err, "failed to init config")
