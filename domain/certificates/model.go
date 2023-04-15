@@ -18,6 +18,7 @@ type CertificateDTO struct {
 	Name      string `json:"name"`
 	ImageLink string `json:"image_link"`
 	ShareLink string `json:"share_link"`
+	Event     string `json:"event"`
 }
 
 func ToDTO(cer Certificate) *CertificateDTO {
@@ -26,5 +27,6 @@ func ToDTO(cer Certificate) *CertificateDTO {
 		Name:      cer.Name,
 		ImageLink: cer.ImageLink,
 		ShareLink: cer.ShareLink,
+		Event:     cer.Event,
 	}
 }
