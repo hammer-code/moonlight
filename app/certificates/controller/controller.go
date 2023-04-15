@@ -20,14 +20,14 @@ func NewController(service certificates.CertificateService) *Controller {
 
 func (c Controller) GetCertificatByIdAndEvent(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	event := vars["event"]
+	// event := vars["event"]
 	id := vars["id"]
 
-	if event == "" {
-		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte("err: event nil"))
-		return
-	}
+	// if event == "" {
+	// 	w.Header().Set("Content-Type", "application/json")
+	// 	w.Write([]byte("err: event nil"))
+	// 	return
+	// }
 
 	if id == "" {
 		w.Header().Set("Content-Type", "application/json")
@@ -35,7 +35,7 @@ func (c Controller) GetCertificatByIdAndEvent(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	cer, err := c.service.GetByExternalIDAndEvent(r.Context(), id, event)
+	cer, err := c.service.GetByExternalIDAndEvent(r.Context(), id)
 
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")

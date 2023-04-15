@@ -63,9 +63,9 @@ func (repo repository) List(ctx context.Context) ([]certificates.Certificate, er
 	return certs, nil
 }
 
-func (repo repository) GetByExternalIDAndEvent(ctx context.Context, externalID string, event string) (*certificates.Certificate, error) {
-	selct := fmt.Sprintf("select %s from %s where external_id = $1 and event = $2", publicColumn, tableName)
-	rows, err := repo.db.QueryContext(ctx, selct, externalID, event)
+func (repo repository) GetByExternalIDAndEvent(ctx context.Context, externalID string) (*certificates.Certificate, error) {
+	selct := fmt.Sprintf("select %s from %s where external_id = $1", publicColumn, tableName)
+	rows, err := repo.db.QueryContext(ctx, selct, externalID)
 	if err != nil {
 		return nil, err
 	}

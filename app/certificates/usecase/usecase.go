@@ -16,8 +16,8 @@ func Newusecase(repo certificates.CertificateRepository) certificates.Certificat
 	}
 }
 
-func (u usecase) GetByExternalIDAndEvent(ctx context.Context, externalID string, event string) (*certificates.CertificateDTO, error) {
-	cer, err := u.repo.GetByExternalIDAndEvent(ctx, externalID, event)
+func (u usecase) GetByExternalIDAndEvent(ctx context.Context, externalID string) (*certificates.CertificateDTO, error) {
+	cer, err := u.repo.GetByExternalIDAndEvent(ctx, externalID)
 	if err != nil {
 		return nil, err
 	}

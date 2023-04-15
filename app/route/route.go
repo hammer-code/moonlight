@@ -18,7 +18,7 @@ func NewRoute(c *controller.Controller) *mux.Router {
 		w.Write([]byte("pong"))
 	})
 
-	v1.HandleFunc("/certificates/{event}/{id}", c.GetCertificatByIdAndEvent)
+	v1.HandleFunc("/certificates/{id}", c.GetCertificatByIdAndEvent)
 
 	return v1
 }
