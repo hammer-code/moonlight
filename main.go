@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"os/exec"
 	"os/signal"
 	"strconv"
 	"syscall"
@@ -48,6 +49,22 @@ func main() {
 		Handler: handler,
 	}
 	cls := make(chan struct{})
+
+	go func() {
+		for {
+			resp, err := http.Get("https://hammercode.org")
+			if err != nil {
+				logging.Error(ctx, err, "failed to init config")
+			}
+
+			if resp.StatusCode >= 500 {
+				cmd := exec.CommandContext(ctx, "pm2", "restart", "hammercodewebsite")
+				if err = cmd.Run(); err != nil {
+					return
+				}
+			}
+		}
+	}()
 
 	go grafulShutdonw(ctx, server, cls)
 
