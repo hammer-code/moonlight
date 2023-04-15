@@ -53,7 +53,7 @@ func main() {
 
 	go func() {
 		for {
-			time.Sleep(2 * time.Second)
+			time.Sleep(1 * time.Second)
 			resp, err := http.Get("https://hammercode.org")
 			if err != nil {
 				logging.Error(ctx, err, "failed to init config")
