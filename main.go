@@ -57,6 +57,7 @@ func main() {
 			resp, err := http.Get("https://hammercode.org")
 			if err != nil {
 				logging.Error(ctx, err, "failed to init config")
+				return
 			}
 
 			if resp.StatusCode >= 500 {
