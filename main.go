@@ -60,7 +60,13 @@ func main() {
 			}
 
 			if resp.StatusCode >= 500 {
+				// auto recover hammercodeweb
 				cmd := exec.CommandContext(ctx, "pm2", "restart", "hammercodewebsite")
+				if err = cmd.Run(); err != nil {
+					return
+				}
+				// auto recover moonligt
+				cmd = exec.CommandContext(ctx, "sudo", "systemctl", "restart", "hmc-cert-go.service")
 				if err = cmd.Run(); err != nil {
 					return
 				}
