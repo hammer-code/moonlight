@@ -29,6 +29,13 @@ func main() {
 		logging.Error(ctx, err, "failed to init config")
 	}
 
+	defer func() {
+		if r := recover(); r != nil {
+			panicCause := fmt.Sprintf("Recovered panic, %v", r)
+			logging.Info(ctx, panicCause)
+		}
+	}()
+
 	logging.Info(ctx, "success load config", logging.Fields{
 		"api":               cfg.API,
 		"database_postgres": cfg.DBPostgres,
