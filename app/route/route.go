@@ -15,7 +15,7 @@ func NewRoute(c *controller.Controller) *mux.Router {
 	r := mux.NewRouter()
 	v1 := r.PathPrefix("/v1").Subrouter()
 	v1.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("pong"))
+		w.Write([]byte("pong ping"))
 	})
 
 	v1.HandleFunc("/certificates/{id}", c.GetCertificatByIdAndEvent)
